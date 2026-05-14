@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MelanMed API Test</title>
+</head>
+<body>
+  <h1>Test Register</h1>
+  <button onclick="testRegister()">Register Test User</button>
+
+  <h1>Test Login</h1>
+  <button onclick="testLogin()">Login Test User</button>
+
+  <pre id="result"></pre>
+
+  <script>
+    async function testRegister() {
+      const response = await fetch('http://localhost:5001/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: 'Test User 2',
+          email: 'test2@test.com',
+          password: 'password123'
+        })
+      });
+      const data = await response.json();
+      document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function testLogin() {
+      const response = await fetch('http://localhost:5001/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: 'test@test.com',
+          password: 'password123'
+        })
+      });
+      const data = await response.json();
+      document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
