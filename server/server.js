@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const doctorRoutes = require('./routes/doctorRoutes');
 const authRoutes = require('./routes/authRoutes');
+const appointmentRoutes = require('./routes/appointmentRoutes');
 
 // load environment variables
 dotenv.config();
@@ -21,6 +22,7 @@ app.use(express.json());
 // routes
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/appointments', appointmentRoutes);
 
 // test route
 app.get('/', (req, res) => {

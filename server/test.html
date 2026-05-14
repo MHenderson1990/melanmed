@@ -10,20 +10,29 @@
   <h1>Test Login</h1>
   <button onclick="testLogin()">Login Test User</button>
 
+  <h1>Test Book Appointment</h1>
+  <button onclick="testBooking()">Book Appointment</button>
+
+  <h1>Test Get My Appointments</h1>
+  <button onclick="testGetAppointments()">Get My Appointments</button>
+
   <pre id="result"></pre>
 
   <script>
+    let token = '';
+
     async function testRegister() {
       const response = await fetch('http://localhost:5001/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: 'Test User 2',
-          email: 'test2@test.com',
+          name: 'Test User 3',
+          email: 'test3@test.com',
           password: 'password123'
         })
       });
       const data = await response.json();
+      token = data.token;
       document.getElementById('result').textContent = JSON.stringify(data, null, 2);
     }
 
@@ -35,6 +44,36 @@
           email: 'test@test.com',
           password: 'password123'
         })
+      });
+      const data = await response.json();
+      token = data.token;
+      document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function testBooking() {
+      const response = await fetch('http://localhost:5001/api/appointments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          doctorId: '6a04b2e5e9bb597340a0d2ee',
+          date: '2026-06-01',
+          time: '10:00 AM',
+          reason: 'Annual checkup'
+        })
+      });
+      const data = await response.json();
+      document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function testGetAppointments() {
+      const response = await fetch('http://localhost:5001/api/appointments/mine', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
       const data = await response.json();
       document.getElementById('result').textContent = JSON.stringify(data, null, 2);
