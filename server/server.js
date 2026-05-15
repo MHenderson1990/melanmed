@@ -5,6 +5,8 @@ const connectDB = require('./config/db');
 const doctorRoutes = require('./routes/doctorRoutes');
 const authRoutes = require('./routes/authRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
+const aiRoutes = require('./routes/aiRoutes');
 
 // load environment variables
 dotenv.config();
@@ -23,6 +25,8 @@ app.use(express.json());
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/appointments', appointmentRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/ai', aiRoutes);
 
 // test route
 app.get('/', (req, res) => {

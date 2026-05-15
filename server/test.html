@@ -4,79 +4,34 @@
   <title>MelanMed API Test</title>
 </head>
 <body>
-  <h1>Test Register</h1>
-  <button onclick="testRegister()">Register Test User</button>
+  <h1>Test AI Chat</h1>
+  <input 
+    type="text" 
+    id="message" 
+    placeholder="Ask the AI for a doctor recommendation"
+    style="width: 400px; padding: 8px;"
+  />
+  <button onclick="testAI()">Ask AI</button>
 
-  <h1>Test Login</h1>
-  <button onclick="testLogin()">Login Test User</button>
-
-  <h1>Test Book Appointment</h1>
-  <button onclick="testBooking()">Book Appointment</button>
-
-  <h1>Test Get My Appointments</h1>
-  <button onclick="testGetAppointments()">Get My Appointments</button>
-
-  <pre id="result"></pre>
+  <pre id="result" style="white-space: pre-wrap; max-width: 600px;"></pre>
 
   <script>
-    let token = '';
+    async function testAI() {
+      const message = document.getElementById('message').value;
 
-    async function testRegister() {
-      const response = await fetch('http://localhost:5001/api/auth/register', {
+      // fetch doctors first
+      const doctorsResponse = await fetch('http://localhost:5001/api/doctors');
+      const doctors = await doctorsResponse.json();
+
+      // send to AI
+      const response = await fetch('http://localhost:5001/api/ai/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: 'Test User 3',
-          email: 'test3@test.com',
-          password: 'password123'
-        })
+        body: JSON.stringify({ message, doctors })
       });
-      const data = await response.json();
-      token = data.token;
-      document.getElementById('result').textContent = JSON.stringify(data, null, 2);
-    }
 
-    async function testLogin() {
-      const response = await fetch('http://localhost:5001/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: 'test@test.com',
-          password: 'password123'
-        })
-      });
       const data = await response.json();
-      token = data.token;
-      document.getElementById('result').textContent = JSON.stringify(data, null, 2);
-    }
-
-    async function testBooking() {
-      const response = await fetch('http://localhost:5001/api/appointments', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          doctorId: '6a04b2e5e9bb597340a0d2ee',
-          date: '2026-06-01',
-          time: '10:00 AM',
-          reason: 'Annual checkup'
-        })
-      });
-      const data = await response.json();
-      document.getElementById('result').textContent = JSON.stringify(data, null, 2);
-    }
-
-    async function testGetAppointments() {
-      const response = await fetch('http://localhost:5001/api/appointments/mine', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const data = await response.json();
-      document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+      document.getElementById('result').textContent = data.message;
     }
   </script>
 </body>
