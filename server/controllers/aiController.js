@@ -1,12 +1,14 @@
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const Anthropic = require('@anthropic-ai/sdk');
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+console.log('API Key loaded:', process.env.ANTHROPIC_API_KEY ? 'YES' : 'NO');
+
+const client = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY
+});
 
 const chatWithAI = async (req, res) => {
   try {
     const { message, doctors } = req.body;
-
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
     const prompt = `
       You are a helpful assistant for MelanMed, a platform that connects 
@@ -21,14 +23,19 @@ const chatWithAI = async (req, res) => {
       Based on the patient's message please recommend the most suitable 
       doctor or doctors from the list above. Explain why they are a good 
       match. Be warm, friendly and culturally sensitive. Keep your response 
-      concise and helpful. If no doctors match perfectly suggest the closest 
-      options and explain why.
+      concise and helpful.
     `;
 
-    const result = await model.generateContent(prompt);
-    const response = result.response.text();
+    const response = await client.messages.create({
+      model: 'claude-opus-4-5',
+      max_tokens: 1024,
+      messages: [
+        { role: 'user', content: prompt }
+      ]
+    });
 
-    res.json({ message: response });
+    const aiMessage = response.content[0].text;
+    res.json({ message: aiMessage });
 
   } catch (error) {
     console.error('AI Error:', error);
