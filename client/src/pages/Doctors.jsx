@@ -1,3 +1,4 @@
+import AIChat from '../components/AIChat';
 import { useState, useEffect } from 'react';
 import { getAllDoctors } from '../services/api';
 import DoctorCard from '../components/DoctorCard';
@@ -248,6 +249,7 @@ function Doctors() {
           )}
         </div>
       </div>
+      <AIChat />
     </div>
   );
 }
