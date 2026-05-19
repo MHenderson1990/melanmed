@@ -90,15 +90,15 @@ const doctors = [
     isFictional: true
   },
   {
-    name: "Candace Cody-Jones",
+    name: "Candy Jones",
     title: "LMFT-Associate",
     specialty: "Therapy & Counseling",
     gender: "Female",
     photo: "candace.jpg",
-    bio: "Candace Cody-Jones is a Licensed Marriage and Family Therapist Associate dedicated to helping individuals and families navigate life's challenges. She specializes in trauma-informed care and culturally affirming therapy.",
+    bio: "Candy Jones is a Licensed Marriage and Family Therapist Associate dedicated to helping individuals and families navigate life's challenges. She specializes in trauma-informed care and culturally affirming therapy.",
     location: { city: "Dallas", state: "TX", area: "Dallas" },
     contact: { phone: "214-555-0105", website: "www.candacecodyjones.com" },
-    booking: { url: "https://www.candacecodyjones.com/book", platform: "SimplePractice" },
+    booking: { url: "https://www.candyjones.com/book", platform: "SimplePractice" },
     visitType: { inPerson: true, virtual: true },
     ageGroups: ["Adults"],
     experience: 5,
