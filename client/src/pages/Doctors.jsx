@@ -185,6 +185,8 @@ function Doctors() {
               <option value="">Any Gender</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
+              <option value="Non-Binary">Non-Binary</option>
+              <option value="Other">Other</option>
             </select>
           </div>
 
