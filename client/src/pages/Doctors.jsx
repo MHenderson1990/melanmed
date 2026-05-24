@@ -1,5 +1,6 @@
 import AIChat from '../components/AIChat';
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { getAllDoctors } from '../services/api';
 import DoctorCard from '../components/DoctorCard';
 
@@ -15,6 +16,16 @@ function Doctors() {
     acceptingPatients: false,
     virtual: false
   });
+
+  let location = useLocation();
+
+  useEffect(function() {
+    let params = new URLSearchParams(location.search);
+    let specialty = params.get('specialty');
+    if (specialty) {
+      setFilters(prev => ({ ...prev, specialty: specialty }));
+    }
+  }, [location.search]);
 
   useEffect(function() {
     async function fetchDoctors() {
